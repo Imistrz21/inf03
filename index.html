@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Quiz HTML</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .question { margin-bottom: 20px; }
+    .question h3 { margin-bottom: 10px; }
+    .correct { color: green; }
+    .incorrect { color: red; }
+  </style>
+</head>
+<body>
+  <a href="index.html"><h1>Wszystkie Pytania</h1></a>
+  <a href="40pytan.html">Wylosuj 40 pytań</a>
+  <form id="quizForm"></form>
+  <button onclick="checkAnswers()">Sprawdź odpowiedzi</button>
+  <div id="result"></div>
+
+  <script>
+    async function loadQuestions() {
+      const response = await fetch('questions.json');
+      let questions = await response.json();
+
+      // Shuffle and take 40 random questions
+      questions = questions.sort(() => 0.5 - Math.random()).slice(0, 40);
+
+      const form = document.getElementById('quizForm');
+      form.innerHTML = ''; // Clear existing content
+
+      questions.forEach((q, i) => {
+        const qDiv = document.createElement('div');
+        qDiv.className = 'question';
+
+        const questionHeader = document.createElement('h3');
+        questionHeader.textContent = `${i + 1}. ${q.title}`;
+        qDiv.appendChild(questionHeader);
+
+
+        if (q.image) {
+          const img = document.createElement('img');
+          img.src = q.image;
+          img.alt = `Obrazek do pytania ${q.number}`;
+          img.style.maxWidth = '100%';
+          img.style.margin = '10px 0';
+          qDiv.appendChild(img);
+        }
+
+        q.answers.forEach((ans, j) => {
+          const inputId = `q${i}_a${j}`;
+
+          const wrapperDiv = document.createElement('div');
+
+          const input = document.createElement('input');
+          input.type = 'radio';
+          input.name = `question${i}`;
+          input.id = inputId;
+          input.value = ans.isCorrect;
+
+          const label = document.createElement('label');
+          label.setAttribute('for', inputId);
+          label.textContent = ans.text;
+
+          wrapperDiv.appendChild(input);
+          wrapperDiv.appendChild(label);
+
+          qDiv.appendChild(wrapperDiv);
+        });
+
+        form.appendChild(qDiv);
+      });
+    }
+
+
+
+    function checkAnswers() {
+      const form = document.getElementById('quizForm');
+      const questions = form.querySelectorAll('.question');
+      let correctCount = 0;
+
+      questions.forEach((question, i) => {
+        const inputs = question.querySelectorAll('input[type="radio"]');
+        let answered = false;
+        inputs.forEach(input => {
+          if (input.checked) {
+            answered = true;
+            if (input.value === "true") {
+              correctCount++;
+              input.nextElementSibling.classList.add('correct');
+            } else {
+              input.nextElementSibling.classList.add('incorrect');
+            }
+          }
+        });
+
+        if (!answered) {
+          question.querySelector('h3').style.color = 'orange';
+        }
+      });
+
+      document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length}</h2>`;
+    }
+
+    loadQuestions();
+  </script>
+</body>
+</html>

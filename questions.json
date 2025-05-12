@@ -1,4 +1,4 @@
-const questions = [
+[
   {
     "number": 1,
     "title": "Którego polecenia nalezy użyć, aby wyraz TEKST został wyświetleny w kolorze czarnym w oknie przeglądarki internetowej?",
@@ -24149,5 +24149,4 @@ const questions = [
     ],
     "image": null
   }
-];
-console.log(questions);
+  ]
