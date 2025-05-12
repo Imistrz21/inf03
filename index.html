@@ -23,11 +23,10 @@
       const response = await fetch('questions.json');
       let questions = await response.json();
 
-      // Shuffle and take 40 random questions
-      questions = questions.sort(() => 0.5 - Math.random()).slice(0, 40);
+   //   questions = questions.sort(() => 0.5 - Math.random()).slice(0, 40);
 
       const form = document.getElementById('quizForm');
-      form.innerHTML = ''; // Clear existing content
+      form.innerHTML = '';
 
       questions.forEach((q, i) => {
         const qDiv = document.createElement('div');
