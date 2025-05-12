@@ -2,14 +2,8 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Quiz HTML</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        .question { margin-bottom: 20px; }
-        .question h3 { margin-bottom: 10px; }
-        .correct { color: green; }
-        .incorrect { color: red; }
-    </style>
+    <title>Quiz</title>
+    <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
 <a href="40pytan.html"><h1>Wylosuj 40 pytań</h1></a>
@@ -60,7 +54,7 @@
 
                 qDiv.appendChild(wrapperDiv);
             });
-           
+
             if (q.image) {
                 const img = document.createElement('img');
                 img.src = q.image;

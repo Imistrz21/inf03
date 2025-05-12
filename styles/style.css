@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    background-image: url(/images/DSC_6319.NEF.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    color: white;
+}
+
+.question {
+    margin-bottom: 20px;
+    padding-bottom: 30px;
+    border-bottom: 3px darkslategray dashed;
+}
+
+.question > img {
+    max-width: 65%;
+    max-height: 65%;
+}
+
+.question h3 {
+    margin-bottom: 10px;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
+
+#quizForm {
+    backdrop-filter: blur(25px);
+    color: white;
+    border-radius: 12px;
+    border: gray 2px solid;
+    padding: 16px;
+}
+
+label {
+    font-size: 18px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .question h3 {
+        font-size: 18px;
+    }
+
+    .question > img {
+        max-width: 100%;
+        max-height: auto;
+    }
+
+    #quizForm {
+        padding: 10px;
+    }
+
+    .question {
+        margin-bottom: 10px;
+        padding-bottom: 15px;
+    }
+
+    label {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 15px;
+    }
+
+    .question h3 {
+        font-size: 20px;
+    }
+
+    .question > img {
+        max-width: 80%;
+    }
+
+    #quizForm {
+        padding: 14px;
+    }
+
+    .question {
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 17px;
+    }
+}
