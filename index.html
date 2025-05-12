@@ -6,14 +6,21 @@
   <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
+<section id="main"></section>
   <a href="index.html"><h1>Wszystkie Pytania</h1></a>
   <a href="40pytan.html">Wylosuj 40 pytań</a>
-  <form id="quizForm"></form>
-  <button onclick="checkAnswers()">Sprawdź odpowiedzi</button>
-  <div id="result"></div>
-
+  <div id="result" style="display: none;"></div>
+<button id="load" onclick="loadQuestions();">Załaduj liste pytań</button>
+  <form id="quizForm"><center><span class="loader" id="loader" style="display: none;"></span></center>
+  </form>
+  <button onclick="checkAnswers()" id="check" style="display:block;">Sprawdź odpowiedzi</button>
   <script>
+
     async function loadQuestions() {
+      document.getElementById('quizForm').style.display = 'block';
+      document.getElementById('loader').style.display = 'block';
+      document.getElementById('load').style.display = 'none';
+
       const response = await fetch('questions.json');
       let questions = await response.json();
 
@@ -63,11 +70,15 @@
 
         form.appendChild(qDiv);
       });
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('result').style.display = 'block';
+      document.getElementById('check').style.display = 'block';
     }
 
 
 
     function checkAnswers() {
+      location.href = location.pathname + '#main';
       const form = document.getElementById('quizForm');
       const questions = form.querySelectorAll('.question');
       let correctCount = 0;
@@ -95,7 +106,6 @@
       document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length}</h2>`;
     }
 
-    loadQuestions();
   </script>
   <script data-goatcounter="https://imistrz21.goatcounter.com/count"
           async src="//gc.zgo.at/count.js"></script>

@@ -8,6 +8,8 @@ body {
     background-size: cover;
     color: white;
     line-height: 1.6;
+    accent-color: yellowgreen;
+
 }
 
 a h1, a {
@@ -31,6 +33,7 @@ a:hover h1, a:hover {
     margin-bottom: 30px;
     padding: 20px;
     border-radius: 12px;
+    border: 1px solid gray;
 }
 
 .question > img {
@@ -45,6 +48,8 @@ a:hover h1, a:hover {
     margin-bottom: 10px;
     font-size: 22px;
     color: #ffffff;
+    margin-top:0px;
+
 }
 
 .correct {
@@ -85,10 +90,17 @@ label {
 
 input[type="radio"]:hover + label,
 input[type="radio"]:focus + label {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
 }
-
+input[type="radio"] {
+    accent-color: yellowgreen;
+    transform: scale(1.7);
+    margin-right: 0.5em;
+}
+input[type="radio"]:checked + label {
+    background-color: rgba(255, 255, 255, 0.2);
+}
 
 button {
     display: block;
@@ -161,5 +173,24 @@ button:hover {
     button {
         font-size: 17px;
         padding: 11px 22px;
+    }
+}
+.loader {
+    width: 48px;
+    height: 48px;
+    border: 5px solid;
+    border-color: #FF3D00 transparent;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
     }
 }

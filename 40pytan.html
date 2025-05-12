@@ -6,14 +6,16 @@
     <link rel="stylesheet" href="styles/style.css">
 </head>
 <body>
+<section id="main"></section>
 <a href="40pytan.html"><h1>Wylosuj 40 pytań</h1></a>
 <a href="index.html">Wszystkie Pytania</a>
-<form id="quizForm"></form>
+<div id="result" style="display: none;"></div>
+<form id="quizForm"><center><span class="loader" id="loader" style="display: none;"></span></center></form>
 <button onclick="checkAnswers()">Sprawdź odpowiedzi</button>
-<div id="result"></div>
 
 <script>
     async function loadQuestions() {
+        document.getElementById('loader').style.display = 'block';
         const response = await fetch('questions.json');
         let questions = await response.json();
 
@@ -65,9 +67,12 @@
             }
             form.appendChild(qDiv);
         });
+        document.getElementById('loader').style.display = 'none';
     }
 
     function checkAnswers() {
+        document.getElementById('result').style.display = 'block';
+        location.href = location.pathname + '#main';
         const form = document.getElementById('quizForm');
         const questions = form.querySelectorAll('.question');
         let correctCount = 0;
