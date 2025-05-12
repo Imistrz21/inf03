@@ -65,18 +65,30 @@ a:hover h1, a:hover {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+input[type="radio"] {
+    transform: scale(1.2);
+    vertical-align: middle;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
 label {
     font-size: 18px;
     display: inline-block;
     margin-left: 8px;
     vertical-align: middle;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
+    padding: 4px 8px;
+    border-radius: 6px;
 }
 
-input[type="radio"] {
-    transform: scale(1.2);
-    vertical-align: middle;
-    margin-right: 6px;
+input[type="radio"]:hover + label,
+input[type="radio"]:focus + label {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
 }
+
 
 button {
     display: block;
