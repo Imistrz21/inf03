@@ -1,7 +1,7 @@
 body {
     font-family: Arial, sans-serif;
     padding: 20px;
-    background-image: url(/images/DSC_6319.NEF.jpg);
+    background-image: url(../images/DSC_6319.NEF.jpg);
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
