@@ -9,6 +9,8 @@ body {
     color: white;
     line-height: 1.6;
     accent-color: yellowgreen;
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
 
 }
 
@@ -92,6 +94,7 @@ input[type="radio"]:hover + label,
 input[type="radio"]:focus + label {
     background-color: rgba(255, 255, 255, 0.1);
     color: #fff;
+    transition: background-color 0.5s ease;
 }
 input[type="radio"] {
     accent-color: yellowgreen;
@@ -117,6 +120,10 @@ button {
 
 button:hover {
     background-color: #008b7e;
+}
+button:active {
+    transform: scale(0.98);
+    background-color: #007f73;
 }
 
 #result {
@@ -194,3 +201,5 @@ button:hover {
         transform: rotate(360deg);
     }
 }
+
+
