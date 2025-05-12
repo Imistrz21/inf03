@@ -33,7 +33,6 @@ body {
 }
 
 #quizForm {
-    backdrop-filter: blur(25px);
     color: white;
     border-radius: 12px;
     border: gray 2px solid;
