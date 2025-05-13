@@ -4,3 +4,4 @@
 - Open Source
 - Z aplikacją na androida (closed source).
 - Na licencji GPL 3.0
+- https://imistrz21.github.io/inf03/40pytan.html
