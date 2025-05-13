@@ -211,3 +211,18 @@ button:active {
 #popup > button{
     background-color: #00bfa6;
 }
+.w3-container.w3-green {
+    transition: width 0.5s ease-in-out;
+}
+#progressBar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 5px 0;
+    margin: 5px 0;
+    border-radius: 10px;
+    text-align: center;
+}

@@ -1,3 +1,6 @@
+let answeredQuestions = 0;
+let totalQuestions = 0;
+
 async function loadQuestions() {
     document.getElementById('loader').style.display = 'block';
     const response = await fetch('questions.json');
@@ -5,6 +8,7 @@ async function loadQuestions() {
     questions = questions.sort(() => 0.5 - Math.random());
     questions = questions.slice(0, 40);
     const form = document.getElementById('quizForm');
+    totalQuestions = questions.length;
     form.dataset.totalQuestions = questions.length;
     questions.forEach((q, i) => {
         const qDiv = document.createElement('div');
@@ -38,6 +42,7 @@ async function loadQuestions() {
         form.appendChild(qDiv);
     });
     document.getElementById('loader').style.display = 'none';
+    updateProgressBar();
 }
 
 function setCookie(name, value, days) {
@@ -77,14 +82,6 @@ function syncStorage() {
     return uniqueResults;
 }
 
-function saveResult(percentage) {
-    const results = syncStorage();
-    const date = new Date().toISOString().split('T')[0];
-    results.push({ date, percentage });
-    localStorage.setItem('quizResults', JSON.stringify(results));
-    setCookie('quizResults', JSON.stringify(results), 30);
-}
-
 function checkAnswers() {
     document.getElementById('result').style.display = 'block';
     location.href = location.pathname + '#main';
@@ -93,6 +90,10 @@ function checkAnswers() {
     let correctCount = 0;
     questions.forEach((question, i) => {
         const inputs = question.querySelectorAll('input[type="radio"]');
+        const labels = question.querySelectorAll('label');
+        labels.forEach(label => {
+            label.classList.remove('correct', 'incorrect');
+        });
         let answered = false;
         inputs.forEach(input => {
             if (input.checked) {
@@ -105,10 +106,8 @@ function checkAnswers() {
                 }
             }
         });
-        if (!answered) {
-            const header = question.querySelector('h3');
-            if (header) header.style.color = 'orange';
-        }
+        const header = question.querySelector('h3');
+        if (header) header.style.color = answered ? '' : 'orange';
     });
     let percentage = (correctCount / questions.length) * 100;
     document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length} <h2 id="percentage">${percentage.toFixed(2)}%</h2></h2>`;
@@ -116,6 +115,14 @@ function checkAnswers() {
         document.getElementById('percentage').style.color = 'red';
     }
     saveResult(percentage);
+}
+
+function saveResult(percentage) {
+    const results = syncStorage();
+    const date = new Date().toISOString().split('T')[0];
+    results.push({ date, percentage });
+    localStorage.setItem('quizResults', JSON.stringify(results));
+    setCookie('quizResults', JSON.stringify(results), 30);
 }
 
 function showProgressChart() {
@@ -221,5 +228,28 @@ function closePopup() {
     document.getElementById('popupOverlay').style.display = 'none';
 }
 
+function updateProgressBar() {
+    const progressPercentage = (answeredQuestions / totalQuestions) * 100;
+    const progressBar = document.getElementById('progressBar');
+    progressBar.style.width = `${progressPercentage}%`;
+    progressBar.textContent = `${Math.round(progressPercentage)}%`;
+}
+function updateAnsweredQuestions() {
+    const form = document.getElementById('quizForm');
+    const answered = new Set();
+    const inputs = form.querySelectorAll('input[type="radio"]:checked');
+    inputs.forEach(input => {
+        const questionIndex = input.name.replace('question', '');
+        answered.add(questionIndex);
+    });
+    answeredQuestions = answered.size;
+    updateProgressBar();
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    updateProgressBar();
+    const form = document.getElementById('quizForm');
+    form.addEventListener('change', updateAnsweredQuestions);
+});
 syncStorage();
 loadQuestions();
