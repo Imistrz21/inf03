@@ -97,8 +97,12 @@
                 if (header) header.style.color = 'orange';
             }
         });
-
-        document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length}</h2>`;
+        let percentage = (correctCount - questions.length) / (questions.length) * 100;
+        percentage += 100;
+        document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length} <h2 id="percentage">${percentage}%</h2></h2>`;
+        if(percentage < 50){
+            document.getElementById('percentage').style.color = 'red';
+        }
     }
 
     loadQuestions();

@@ -102,8 +102,8 @@
           question.querySelector('h3').style.color = 'orange';
         }
       });
-
-      document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length}</h2>`;
+      let percentage = (correctCount - questions.length) / (questions.length) * 100;
+      document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length} (${percentage}%)</h2>`;
     }
 
   </script>

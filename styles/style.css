@@ -134,6 +134,7 @@ button:active {
     padding: 16px;
     border-radius: 10px;
     text-align: center;
+    margin-bottom:30px;
 }
 
 @media (max-width: 600px) {
