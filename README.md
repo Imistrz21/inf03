@@ -3,3 +3,4 @@
 - Bez reklam
 - Open Source
 - Z aplikacją na androida (closed source).
+- Na licencji GPL 3.0
