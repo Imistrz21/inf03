@@ -203,4 +203,11 @@ button:active {
     }
 }
 
+#popup{
 
+    background: rgba(255, 255, 255, 0.5);
+    color: white;
+}
+#popup > button{
+    background-color: #00bfa6;
+}

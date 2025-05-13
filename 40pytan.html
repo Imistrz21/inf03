@@ -4,111 +4,83 @@
     <meta charset="UTF-8">
     <title>Quiz</title>
     <link rel="stylesheet" href="styles/style.css">
+    <style>
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 0 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 8px;
+        }
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.6);
+            z-index: 999;
+        }
+        .popup button {
+            margin-top: 15px;
+            padding: 8px 16px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .popup button:hover {
+            background: #0056b3;
+        }
+        canvas {
+            max-width: 100%;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            pointer-events: none;
+        }
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+    </style>
 </head>
 <body>
 <section id="main"></section>
 <a href="40pytan.html"><h1>Wylosuj 40 pytań</h1></a>
 <a href="index.html">Wszystkie Pytania</a>
+<button onclick="showProgressChart()">Pokaż postępy</button>
 <div id="result" style="display: none;"></div>
 <form id="quizForm"><center><span class="loader" id="loader" style="display: none;"></span></center></form>
 <button onclick="checkAnswers()">Sprawdź odpowiedzi</button>
 
-<script>
-    async function loadQuestions() {
-        document.getElementById('loader').style.display = 'block';
-        const response = await fetch('questions.json');
-        let questions = await response.json();
-
-
-        questions = questions.sort(() => 0.5 - Math.random());
-
-
-        questions = questions.slice(0, 40);
-
-        const form = document.getElementById('quizForm');
-        form.dataset.totalQuestions = questions.length;
-
-        questions.forEach((q, i) => {
-            const qDiv = document.createElement('div');
-            qDiv.className = 'question';
-
-            const questionP = document.createElement('h3');
-            questionP.textContent = `${i + 1}. ${q.title}`;
-            qDiv.appendChild(questionP);
-
-            q.answers.forEach((ans, j) => {
-                const inputId = `q${i}_a${j}`;
-
-                const wrapperDiv = document.createElement('div');
-
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = `question${i}`;
-                input.id = inputId;
-                input.value = ans.isCorrect;
-
-                const label = document.createElement('label');
-                label.setAttribute('for', inputId);
-                label.textContent = ans.text;
-
-                wrapperDiv.appendChild(input);
-                wrapperDiv.appendChild(label);
-
-                qDiv.appendChild(wrapperDiv);
-            });
-
-            if (q.image) {
-                const img = document.createElement('img');
-                img.src = q.image;
-                img.alt = `Obrazek do pytania ${q.number}`;
-                img.style.maxWidth = '100%';
-                img.style.margin = '10px 0';
-                qDiv.appendChild(img);
-            }
-            form.appendChild(qDiv);
-        });
-        document.getElementById('loader').style.display = 'none';
-    }
-
-    function checkAnswers() {
-        document.getElementById('result').style.display = 'block';
-        location.href = location.pathname + '#main';
-        const form = document.getElementById('quizForm');
-        const questions = form.querySelectorAll('.question');
-        let correctCount = 0;
-
-        questions.forEach((question, i) => {
-            const inputs = question.querySelectorAll('input[type="radio"]');
-            let answered = false;
-            inputs.forEach(input => {
-                if (input.checked) {
-                    answered = true;
-                    if (input.value === "true") {
-                        correctCount++;
-                        input.nextElementSibling.classList.add('correct');
-                    } else {
-                        input.nextElementSibling.classList.add('incorrect');
-                    }
-                }
-            });
-
-            if (!answered) {
-                const header = question.querySelector('h3');
-                if (header) header.style.color = 'orange';
-            }
-        });
-        let percentage = (correctCount - questions.length) / (questions.length) * 100;
-        percentage += 100;
-        document.getElementById('result').innerHTML = `<h2>Twój wynik: ${correctCount} / ${questions.length} <h2 id="percentage">${percentage}%</h2></h2>`;
-        if(percentage < 50){
-            document.getElementById('percentage').style.color = 'red';
-        }
-    }
-
-    loadQuestions();
-</script>
+<div id="popupOverlay" class="popup-overlay"></div>
+<div id="popup" class="popup">
+    <h2>Twoje postępy</h2>
+    <canvas id="progressChart" width="600" height="400"></canvas>
+    <button onclick="closePopup()">Zamknij</button>
+</div>
 <script data-goatcounter="https://imistrz21.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
-
+<script src="scripts/40questions.js"></script>
 </body>
 </html>
